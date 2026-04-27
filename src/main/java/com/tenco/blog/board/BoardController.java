@@ -22,7 +22,6 @@ public class BoardController {
 
     /**
      * 게시글 작성 화면 요청
-     *
      * @return 페이지 반환
      * 주소설계 : http://localhost:8080/board/save-form
      */
@@ -34,16 +33,14 @@ public class BoardController {
 
     /**
      * 게시글 작성 기능 요청
-     *
      * @return 페이지 반환
      * 주소설계 : http://localhost:8080/board/save-form
      */
     @PostMapping("/board/save")
-    // 사용자 요청 -> HTTP 요청 메시지 (Post)
+    // 사용자 요청 -> HTTP 요청 메시지(Post)
     public String saveProc(BoardRequest.SaveDTO saveDTO) {
         Board board = saveDTO.toEntity();
         boardPersistRepository.save(board);
-
         return "redirect:/";
     }
 
@@ -55,9 +52,7 @@ public class BoardController {
     @GetMapping({"/", "index"})
     public String list(Model model) {
 
-        // List<Board> boardList = boardNativeRepository.findAll();
         List<Board> boardList = boardPersistRepository.findAll();
-
         model.addAttribute("boardList", boardList);
         return "board/list";
     }
@@ -69,9 +64,8 @@ public class BoardController {
     public String detailPage(@PathVariable(name = "id") Integer id, Model model) {
         // 유효성 검사 , 인증 검사
 
-        // Board board = boardNativeRepository.findById(id);
+//        Board board = boardNativeRepository.findById(id);
         Board board = boardPersistRepository.findById(id);
-
         model.addAttribute("board", board);
 
         return "board/detail";
@@ -81,7 +75,7 @@ public class BoardController {
     // /board/{{board.id}}/delete
     @PostMapping("/board/{id}/delete")
     public String deleteProc(@PathVariable(name = "id") Integer id) {
-        boardNativeRepository.deleteById(id);
+        boardPersistRepository.deleteById(id);
 
         // PRG 패턴( Post-> Redirect -> Get) 적용
         return "redirect:/";
