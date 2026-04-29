@@ -1,5 +1,6 @@
 package com.tenco.blog.board;
 
+import com.tenco.blog.user.User;
 import com.tenco.blog.util.MyDateUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,10 @@ public class Board {
     private String username;
     private String title;
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // @CreationTimestamp : 하이버네이트가 제공하는 어노테이션
     // 특정 하나의 엔티티가 저장이 될 때 현재 시간을 자동으로 저장해 설정
